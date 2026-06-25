@@ -8,45 +8,67 @@
 <style>
   /* ── TOKENS ── */
   :root {
-    --navy:    #0F2A5C;
-    --navy2:   #162F66;
-    --gold:    #F0A500;
-    --gold2:   #FFD166;
-    --white:   #F8F9FF;
-    --card-bg: rgba(255,255,255,0.04);
-    --card-border: rgba(240,165,0,0.18);
-    --text-main: #E8EEFF;
-    --text-muted: rgba(232,238,255,0.55);
-    --bg-from: #080F24;
-    --bg-to:   #0F2240;
+    --purple:   #845EC2;
+    --purple2:  #A06CD5;
+    --purple-deep: #4B2E83;
+    --teal:     #00C9A7;
+    --teal2:    #4FFBDF;
+    --pink:     #FF6F91;
+    --white:    #F8F9FF;
+    --card-bg: rgba(255,255,255,0.05);
+    --card-border: rgba(132,94,194,0.25);
+    --text-main: #ECE9FB;
+    --text-muted: rgba(236,233,251,0.58);
+    --bg-from: #1B1140;
+    --bg-mid:  #3B2470;
+    --bg-to:   #0B3B36;
     --shadow: 0 8px 32px rgba(0,0,0,0.45);
   }
   [data-theme="light"] {
     --card-bg: rgba(255,255,255,0.85);
-    --card-border: rgba(15,42,92,0.15);
-    --text-main: #0F2A5C;
-    --text-muted: rgba(15,42,92,0.55);
-    --bg-from: #E8EDF8;
-    --bg-to:   #CDD6EE;
-    --shadow: 0 8px 32px rgba(15,42,92,0.12);
+    --card-border: rgba(75,46,131,0.18);
+    --text-main: #3B2470;
+    --text-muted: rgba(59,36,112,0.6);
+    --bg-from: #ECE6FB;
+    --bg-mid:  #DCE9F6;
+    --bg-to:   #D6F3EC;
+    --shadow: 0 8px 32px rgba(75,46,131,0.12);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
+    background: linear-gradient(125deg, var(--bg-from) 0%, var(--bg-mid) 45%, var(--bg-to) 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 14s ease-in-out infinite;
     min-height: 100vh;
     color: var(--text-main);
-    transition: background 0.4s, color 0.4s;
+    transition: color 0.4s;
+  }
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   /* ── CANVAS FONDO ── */
   #bg-canvas {
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0;
-    opacity: 0.35;
+    opacity: 0.4;
   }
+
+  /* ── BLOBS FLOTANTES ── */
+  .blob {
+    position: fixed; border-radius: 50%;
+    filter: blur(60px); opacity: 0.35; z-index: 0; pointer-events: none;
+  }
+  .blob-1 { width: 420px; height: 420px; background: var(--purple); top: -120px; left: -100px; animation: floatA 18s ease-in-out infinite; }
+  .blob-2 { width: 360px; height: 360px; background: var(--teal); bottom: -100px; right: -80px; animation: floatB 22s ease-in-out infinite; }
+  .blob-3 { width: 220px; height: 220px; background: var(--pink); top: 40%; right: 10%; animation: floatA 16s ease-in-out infinite reverse; opacity: 0.22; }
+  @keyframes floatA { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(40px,30px) scale(1.08); } }
+  @keyframes floatB { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(-30px,-40px) scale(1.1); } }
 
   /* ── LAYOUT ── */
   .wrapper { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
@@ -54,13 +76,14 @@
   /* ── THEME TOGGLE ── */
   .theme-btn {
     position: fixed; top: 20px; right: 20px; z-index: 100;
-    background: var(--gold); border: none; border-radius: 50px;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    border: none; border-radius: 50px;
     width: 48px; height: 48px; cursor: pointer;
     font-size: 20px; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(240,165,0,0.4);
+    box-shadow: 0 4px 16px rgba(132,94,194,0.5);
     transition: transform 0.25s, box-shadow 0.25s;
   }
-  .theme-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(240,165,0,0.6); }
+  .theme-btn:hover { transform: scale(1.1) rotate(8deg); box-shadow: 0 6px 24px rgba(0,201,167,0.5); }
 
   /* ── HERO ── */
   .hero {
@@ -69,26 +92,29 @@
   }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(240,165,0,0.12); border: 1px solid var(--gold2);
+    background: rgba(132,94,194,0.16); border: 1px solid var(--teal2);
     border-radius: 100px; padding: 6px 16px;
     font-size: 12px; font-weight: 600; letter-spacing: .08em;
-    color: var(--gold2); text-transform: uppercase;
+    color: var(--teal2); text-transform: uppercase;
     margin-bottom: 20px;
     animation: fadeDown 0.6s ease both;
   }
-  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 1.8s infinite; }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); animation: pulse 1.8s infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
 
   .hero-name {
     font-family: 'Sora', sans-serif;
     font-size: clamp(28px, 5vw, 52px);
     font-weight: 800; line-height: 1.1;
-    background: linear-gradient(135deg, var(--white) 30%, var(--gold));
+    background: linear-gradient(135deg, var(--white) 20%, var(--purple2) 55%, var(--teal2));
+    background-size: 200% auto;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    animation: fadeDown 0.7s ease 0.1s both;
+    animation: fadeDown 0.7s ease 0.1s both, textShine 8s linear infinite;
   }
+  @keyframes textShine { to { background-position: 200% center; } }
   [data-theme="light"] .hero-name {
-    background: linear-gradient(135deg, var(--navy) 30%, var(--gold));
+    background: linear-gradient(135deg, var(--purple-deep) 20%, var(--purple) 55%, var(--teal));
+    background-size: 200% auto;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
   .hero-sub {
@@ -109,15 +135,16 @@
 
   .hero-seal {
     width: 100px; height: 100px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--navy), var(--navy2));
-    border: 3px solid var(--gold);
+    background: linear-gradient(135deg, var(--purple-deep), var(--purple));
+    border: 3px solid var(--teal2);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700;
-    color: var(--gold); text-align: center; line-height: 1.4;
-    box-shadow: 0 0 40px rgba(240,165,0,0.25);
-    animation: fadeIn 1s ease 0.4s both;
+    color: var(--teal2); text-align: center; line-height: 1.4;
+    box-shadow: 0 0 40px rgba(0,201,167,0.3);
+    animation: fadeIn 1s ease 0.4s both, sealSpin 12s linear infinite;
     flex-shrink: 0;
   }
+  @keyframes sealSpin { from { box-shadow: 0 0 40px rgba(0,201,167,0.3); } 50% { box-shadow: 0 0 56px rgba(255,111,145,0.35); } to { box-shadow: 0 0 40px rgba(0,201,167,0.3); } }
 
   @keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:none} }
   @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
@@ -137,7 +164,7 @@
   .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   .stat-card:nth-child(1){animation-delay:0.1s} .stat-card:nth-child(2){animation-delay:0.18s}
   .stat-card:nth-child(3){animation-delay:0.26s} .stat-card:nth-child(4){animation-delay:0.34s}
-  .stat-num { font-family:'Sora',sans-serif; font-size:32px; font-weight:800; color:var(--gold); }
+  .stat-num { font-family:'Sora',sans-serif; font-size:32px; font-weight:800; color: var(--teal); }
   .stat-label { font-size:11px; color:var(--text-muted); margin-top:4px; text-transform:uppercase; letter-spacing:.06em; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
 
@@ -148,7 +175,7 @@
   .section-line { flex: 1; height: 1px; background: var(--card-border); }
   .section-title {
     font-family:'Sora',sans-serif; font-size:11px; font-weight:700;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--gold);
+    letter-spacing:.14em; text-transform:uppercase; color: var(--teal);
   }
 
   /* ── COURSE GRID ── */
@@ -166,13 +193,13 @@
   }
   .course-card::before {
     content:''; position:absolute; inset:0;
-    background: linear-gradient(135deg, transparent 60%, rgba(240,165,0,0.06));
+    background: linear-gradient(135deg, transparent 60%, rgba(0,201,167,0.08));
     pointer-events:none;
   }
   .course-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.35), 0 0 0 1px var(--gold);
-    border-color: var(--gold);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.35), 0 0 0 1px var(--teal);
+    border-color: var(--teal);
   }
 
   .course-icon {
@@ -183,15 +210,17 @@
   }
   .course-card:hover .course-icon { transform: scale(1.12) rotate(-4deg); }
 
-  .course-code { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+  .course-code { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color: var(--teal); margin-bottom:6px; }
   .course-name { font-family:'Sora',sans-serif; font-size:17px; font-weight:700; line-height:1.3; margin-bottom:8px; }
-  .course-desc { font-size:12px; color:var(--text-muted); line-height:1.6; margin-bottom:20px; }
+  .course-desc { font-size:12px; color:var(--text-muted); line-height:1.6; margin-bottom:12px; }
+  .course-prof { font-size:11px; color: var(--purple2); font-weight:600; margin-bottom:16px; display:flex; align-items:center; gap:6px; }
+  [data-theme="light"] .course-prof { color: var(--purple-deep); }
 
   .course-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
   .tag {
     font-size:10px; font-weight:500; border-radius:6px;
-    padding:3px 10px; background:rgba(240,165,0,0.1); color:var(--gold2);
-    border:1px solid rgba(240,165,0,0.2);
+    padding:3px 10px; background:rgba(0,201,167,0.12); color: var(--teal2);
+    border:1px solid rgba(0,201,167,0.25);
   }
 
   .course-footer { display:flex; align-items:center; justify-content:space-between; }
@@ -199,20 +228,20 @@
   .course-credits strong { color:var(--text-main); font-size:13px; }
   .course-arrow {
     width:36px; height:36px; border-radius:50%;
-    background:rgba(240,165,0,0.12); border:1px solid var(--gold);
+    background:rgba(0,201,167,0.14); border:1px solid var(--teal);
     display:flex; align-items:center; justify-content:center;
-    font-size:14px; color:var(--gold);
+    font-size:14px; color: var(--teal);
     transition:background 0.25s, transform 0.25s;
   }
-  .course-card:hover .course-arrow { background:var(--gold); color:#0F2A5C; transform:translateX(3px); }
+  .course-card:hover .course-arrow { background: var(--teal); color:#0B3B36; transform:translateX(3px); }
 
   /* Progress bar inside card */
   .progress-wrap { margin-bottom:16px; }
   .progress-label { display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-bottom:5px; }
-  .progress-track { height:4px; background:rgba(240,165,0,0.12); border-radius:2px; overflow:hidden; }
+  .progress-track { height:4px; background:rgba(132,94,194,0.18); border-radius:2px; overflow:hidden; }
   .progress-fill {
     height:100%; border-radius:2px;
-    background:linear-gradient(90deg, var(--gold), var(--gold2));
+    background:linear-gradient(90deg, var(--purple), var(--teal));
     width:0; transition:width 1.2s cubic-bezier(.22,1,.36,1);
   }
 
@@ -223,7 +252,7 @@
     border-radius:20px; padding:28px; backdrop-filter:blur(14px);
     animation:fadeUp 0.6s ease 0.3s both;
   }
-  .info-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:700; color:var(--gold); margin-bottom:18px; text-transform:uppercase; letter-spacing:.08em; }
+  .info-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:700; color: var(--teal); margin-bottom:18px; text-transform:uppercase; letter-spacing:.08em; }
   .info-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--card-border); font-size:13px; }
   .info-row:last-child { border-bottom:none; }
   .info-row-label { color:var(--text-muted); }
@@ -234,7 +263,7 @@
     margin-top:60px; text-align:center;
     font-size:12px; color:var(--text-muted); line-height:1.9;
   }
-  .footer a { color:var(--gold); text-decoration:none; }
+  .footer a { color: var(--teal2); text-decoration:none; }
   .footer a:hover { text-decoration:underline; }
 
   /* ── RESPONSIVE ── */
@@ -248,17 +277,25 @@
     .courses-grid{ grid-template-columns:1fr; }
   }
 
-  /* ── COLOR ACCENT PER CARD ── */
-  .accent-blue   { background:linear-gradient(135deg,#1a4fa010,#1a4fa022); }
-  .accent-purple { background:linear-gradient(135deg,#6c3fc010,#6c3fc022); }
-  .accent-teal   { background:linear-gradient(135deg,#0e7c6210,#0e7c6222); }
-  .accent-red    { background:linear-gradient(135deg,#b53e2610,#b53e2622); }
-  .accent-green  { background:linear-gradient(135deg,#1b6b3a10,#1b6b3a22); }
-  .accent-orange { background:linear-gradient(135deg,#c0661510,#c0661522); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+    body { animation: none; }
+  }
+
+  /* ── COLOR ACCENT PER CARD (derivados de la paleta morado/teal) ── */
+  .accent-blue   { background:linear-gradient(135deg,#845EC210,#845EC222); }
+  .accent-purple { background:linear-gradient(135deg,#A06CD510,#A06CD522); }
+  .accent-teal   { background:linear-gradient(135deg,#00C9A710,#00C9A722); }
+  .accent-red    { background:linear-gradient(135deg,#FF6F9110,#FF6F9122); }
+  .accent-green  { background:linear-gradient(135deg,#4FFBDF10,#4FFBDF22); }
+  .accent-orange { background:linear-gradient(135deg,#4B2E8310,#4B2E8322); }
 </style>
 </head>
 <body>
 
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
 <canvas id="bg-canvas"></canvas>
 
 <button class="theme-btn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
@@ -272,8 +309,8 @@
       <h1 class="hero-name">Portal Académico<br>Estudiantil</h1>
       <p class="hero-sub">Universidad Nacional del Altiplano · Facultad de Ingeniería Estadística e Informática</p>
       <div class="hero-meta">
-        <div class="chip">👤 <strong>Evi</strong></div>
-        <div class="chip">Código: <strong>·· ·· ··</strong></div>
+        <div class="chip">👤 <strong>Cinthia Yaneth Fonseca Lizarraga</strong></div>
+        <div class="chip">Código: <strong>236718</strong></div>
         <div class="chip">Ciclo <strong>VI</strong></div>
         <div class="chip">GITCS <strong>2026</strong></div>
       </div>
@@ -303,6 +340,7 @@
       <div class="course-code">EST314 · Estadística Computacional</div>
       <h2 class="course-name">Aprendizaje No Supervisado</h2>
       <p class="course-desc">Clustering, reducción dimensional, KMeans, DBSCAN, HDBSCAN y análisis de componentes principales.</p>
+      <p class="course-prof">👨‍🏫 Aleman Gonzales Leonid</p>
       <div class="course-tags"><span class="tag">KMeans</span><span class="tag">DBSCAN</span><span class="tag">PCA</span><span class="tag">Python</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>65%</span></div>
@@ -319,6 +357,7 @@
       <div class="course-code">Redes · Semestre VI</div>
       <h2 class="course-name">Arq. de Redes y Protocolos</h2>
       <p class="course-desc">Modelos OSI y TCP/IP, direccionamiento MAC/IP, topologías de red y paradigmas de transmisión.</p>
+      <p class="course-prof">👨‍🏫 Apaza Tarqui Alejandro</p>
       <div class="course-tags"><span class="tag">OSI</span><span class="tag">TCP/IP</span><span class="tag">MAC</span><span class="tag">Routing</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>58%</span></div>
@@ -335,6 +374,7 @@
       <div class="course-code">EST315 · Doc. Melgarejo Bolivar R.P.</div>
       <h2 class="course-name">Gestión de Proyectos TICS</h2>
       <p class="course-desc">Metodologías ágiles, planificación de proyectos tecnológicos, gestión de riesgos y documentación.</p>
+      <p class="course-prof">👨‍🏫 Melgarejo Bolivar Romel Percy</p>
       <div class="course-tags"><span class="tag">Scrum</span><span class="tag">PMI</span><span class="tag">Riesgos</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>50%</span></div>
@@ -351,6 +391,7 @@
       <div class="course-code">Modelos Discretos · Semestre VI</div>
       <h2 class="course-name">Modelos Lineales</h2>
       <p class="course-desc">Regresión múltiple, pruebas de hipótesis, diagnóstico de residuales, heterocedasticidad y autocorrelación.</p>
+      <p class="course-prof">👨‍🏫 Vargas Valverde Confesor Milan</p>
       <div class="course-tags"><span class="tag">OLS</span><span class="tag">MCO</span><span class="tag">EViews</span><span class="tag">R</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>72%</span></div>
@@ -365,8 +406,9 @@
     <a class="course-card" href="regresion-lineal/" style="animation-delay:0.4s">
       <div class="course-icon accent-green">📉</div>
       <div class="course-code">Estadística · Semestre VI</div>
-      <h2 class="course-name">Regresión Lineal</h2>
+      <h2 class="course-name">Regresión Lineal y No Lineal</h2>
       <p class="course-desc">Regresión simple y múltiple, supuestos MCO, intervalos de confianza y predicción, análisis de varianza.</p>
+      <p class="course-prof">👨‍🏫 Vargas Valverde Confesor Milan</p>
       <div class="course-tags"><span class="tag">MCO</span><span class="tag">ANOVA</span><span class="tag">IC</span><span class="tag">Excel</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>80%</span></div>
@@ -383,6 +425,7 @@
       <div class="course-code">Estadística No Paramétrica · VI</div>
       <h2 class="course-name">Series de Tiempo</h2>
       <p class="course-desc">Modelado SARIMA, ARCH/GARCH, metodología Box-Jenkins, pronósticos y análisis espectral.</p>
+      <p class="course-prof">👨‍🏫 Lluen Vallejos Cesar Augusto</p>
       <div class="course-tags"><span class="tag">SARIMA</span><span class="tag">ARCH</span><span class="tag">EViews</span><span class="tag">Pronóstico</span></div>
       <div class="progress-wrap">
         <div class="progress-label"><span>Avance</span><span>75%</span></div>
@@ -441,7 +484,7 @@
   function draw(){
     ctx.clearRect(0,0,W,H);
     const isDark=document.documentElement.getAttribute('data-theme')==='dark';
-    const col=isDark?'240,165,0':'15,42,92';
+    const col=isDark?'0,201,167':'132,94,194';
     pts.forEach(p=>{
       p.x+=p.vx; p.y+=p.vy;
       if(p.x<0)p.x=W; if(p.x>W)p.x=0;
